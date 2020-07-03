@@ -10,10 +10,11 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 reddit = praw.Reddit('wholesome_porn_bot')
 
-food_posts = []
-earth_posts = []
-library_posts = []
-aerial_posts = []
+food_posts      = []
+earth_posts     = []
+library_posts   = []
+aerial_posts    = []
+anime_posts     = []
 
 for submission in reddit.subreddit('foodporn+culinaryporn+dessertporn').hot(limit=50):
     food_posts.append(submission.url)
@@ -26,6 +27,9 @@ for submission in reddit.subreddit('libraryporn+bookporn').hot(limit=50):
 
 for submission in reddit.subreddit('aerialporn').hot(limit=50):
     aerial_posts.append(submission.url)
+
+for submission in reddit.subreddit('animemes').hot(limit=50):
+    anime_posts.append(submission.url)
 
 client = discord.Client()
 
@@ -61,5 +65,13 @@ async def on_message(message):
     if message.content == '!aerialporn':
         response = random.choice(aerial_posts)
         await message.channel.send(f'Wholesome aerial porn incoming!\n{response}')
+
+    if message.content == '!animeme':
+        response = random.choice(anime_posts)
+        await message.channel.send(f'Anime memes incoming!\n{response}')
+
+    if message.content == '!pornhelp':
+        response = f"Hi! Here's how wholesome-porn-bot works:\n!foodporn for juicy food pics.\n!earthporn for huge tracts of land!\n!libraryporn for hot books in the stacks.\n!aerialporn for hot top-down shots.\n!animeme for you weeby dank memers."
+        await message.channel.send(response)
 
 client.run(TOKEN)
