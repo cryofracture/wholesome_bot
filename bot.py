@@ -29,7 +29,10 @@ for submission in reddit.subreddit('aerialporn').hot(limit=50):
     aerial_posts.append(submission.url)
 
 for submission in reddit.subreddit('animemes').hot(limit=50):
-    anime_posts.append(submission.url)
+    if "v.redd.it" in submission.url:
+        continue
+    else:
+        anime_posts.append(submission.url)
 
 client = discord.Client()
 
@@ -71,7 +74,7 @@ async def on_message(message):
         await message.channel.send(f'Anime memes incoming!\n{response}')
 
     if message.content == '!pornhelp':
-        response = f"Hi! Here's how wholesome-porn-bot works:\n!foodporn for juicy food pics.\n!earthporn for huge tracts of land!\n!libraryporn for hot books in the stacks.\n!aerialporn for hot top-down shots.\n!animeme for you weeby dank memers."
+        response = f"Hi {message.author.mention}! Here's how {client.user.mention} works:\n!foodporn for juicy food pics.\n!earthporn for huge tracts of land!\n!libraryporn for hot books in the stacks.\n!aerialporn for hot top-down shots.\n!animeme for you weeby dank memers."
         await message.channel.send(response)
 
 client.run(TOKEN)
